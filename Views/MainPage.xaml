@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIFoodie.MainPage"
+             Title="Foodie">
+
+    <Grid RowDefinitions="Auto" Padding="15">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <HorizontalStackLayout Spacing="10" Padding="5">
+                    <Label Text="{
+                        Binding Name}" 
+                           FontSize="18" 
+                           VerticalOptions="Center"/>
+                    <Label Text="{
+                        Binding Calories, 
+                        StringFormat='{0} kcal'}" 
+                           FontSize="16" 
+                           TextColor="Gray" 
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+        <AbsoluteLayout Grid.Row="1" BackgroundColor="{
+            AppThemeBinding Light={StaticResource LightSecondary}, 
+            Dark={StaticResource DarkSecondary}}}"
+                        HeightRequest="100"
+                        CompressedLayout.IsHeadless="True">
+            <Image Source="plate.png" 
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,150,150" 
+                   AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        </AbsoluteLayout>
+    </Grid>
+    
+
+
+</ContentPage>
