@@ -1,4 +1,5 @@
-﻿using MAUIFoodie.Services;
+﻿using MAUIFoodie.Resources.Localization;
+using MAUIFoodie.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -37,6 +38,15 @@ namespace MAUIFoodie.ViewModels
             var culture = new CultureInfo(langCode);
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            AppResources.Culture = culture;
+
+            Preferences.Set("SelectedLanguage", langCode);
+
+            await Shell.Current.GoToAsync("//MainPage");
+            await Shell.Current.GoToAsync("//SettingsPage");
         }
     }
 }

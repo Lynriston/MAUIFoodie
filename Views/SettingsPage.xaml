@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MAUIFoodie.ViewModels"
+             xmlns:services="clr-namespace:MAUIFoodie.Services;assembly=MAUIFoodie"
+             x:Class="MAUIFoodie.Views.SettingsPage"
+             Title="Settings"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=#121212}">
+
+    <VerticalStackLayout Spacing="20" Padding="20">
+
+        <Frame CornerRadius="10" 
+               Padding="15" 
+               BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+               BorderColor="{AppThemeBinding Light=#E0E0E0, Dark=#333333}">
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Fill">
+
+                <Label Text="{services:Translation DarkMode}" 
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="StartAndExpand" 
+                       FontSize="16" />
+
+                <Switch x:Name="ThemeSwitch" 
+                        Toggled="OnThemeSwitchToggled" 
+                        VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame CornerRadius="10" 
+               Padding="15" 
+               BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+               BorderColor="{AppThemeBinding Light=#E0E0E0, Dark=#333333}">
+            <VerticalStackLayout Spacing="10">
+
+                <Label Text="{services:Translation SelectLanguage}" 
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                       FontSize="16" 
+                       FontAttributes="Bold" />
+
+                <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <Button Text="{services:Translation EstBtn}" 
+                            Command="{Binding ChangeLanguageCommand}" 
+                            CommandParameter="et" 
+                            WidthRequest="100" />
+
+                    <Button Text="{services:Translation EngBtn}" 
+                            Command="{Binding ChangeLanguageCommand}" 
+                            CommandParameter="en" 
+                            WidthRequest="100" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+    </VerticalStackLayout>
+</ContentPage>

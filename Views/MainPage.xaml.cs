@@ -1,24 +1,49 @@
-﻿namespace MAUIFoodie
+﻿using MAUIFoodie.ViewModels;
+using Microsoft.Maui.Layouts;
+using MAUIFoodie.ViewModels;
+
+namespace MAUIFoodie
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private readonly MainViewModel _viewModel;
 
-        public MainPage()
+        public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
+
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            count++;
+            base.OnAppearing();
+            await _viewModel.LoadFoodItemsAsync();
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+        private void OnMoveUpClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is MAUIFoodie.Models.Food foodItem)
+            {
+                _viewModel.MoveUpCommand.Execute(foodItem);
+            }
+        }
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private void OnMoveDownClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is MAUIFoodie.Models.Food foodItem)
+            {
+                _viewModel.MoveDownCommand.Execute(foodItem);
+            }
+        }
+
+        private void OnDeleteClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is MAUIFoodie.Models.Food foodItem)
+            {
+                _viewModel.DeleteFoodCommand.Execute(foodItem);
+            }
         }
     }
 }

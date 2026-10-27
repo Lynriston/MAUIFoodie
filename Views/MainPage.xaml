@@ -1,38 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUIFoodie.Models"
+             xmlns:ViewModels="clr-namespace:MAUIFoodie.ViewModels"
+             xmlns:services="clr-namespace:MAUIFoodie.Services;assembly=MAUIFoodie"
              x:Class="MAUIFoodie.MainPage"
+             x:Name="thisPage"
              Title="Foodie">
 
-    <Grid RowDefinitions="Auto" Padding="15">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <HorizontalStackLayout Spacing="10" Padding="5">
-                    <Label Text="{
-                        Binding Name}" 
-                           FontSize="18" 
-                           VerticalOptions="Center"/>
-                    <Label Text="{
-                        Binding Calories, 
-                        StringFormat='{0} kcal'}" 
-                           FontSize="16" 
-                           TextColor="Gray" 
-                           VerticalOptions="Center" />
-                </HorizontalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
+    <Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="15">
 
-        <AbsoluteLayout Grid.Row="1" BackgroundColor="{
-            AppThemeBinding Light={StaticResource LightSecondary}, 
-            Dark={StaticResource DarkSecondary}}}"
-                        HeightRequest="100"
-                        CompressedLayout.IsHeadless="True">
-            <Image Source="plate.png" 
-                   AbsoluteLayout.LayoutBounds="0.5,0.5,150,150" 
-                   AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        </AbsoluteLayout>
+        <VerticalStackLayout Grid.Row="0" Spacing="8">
+            <Label Text="{services:Translation MainTitle}" FontSize="20" FontAttributes="Bold"/>
+            <Entry Placeholder="{services:Translation FoodName}" Text="{Binding NewFoodName}"/>
+            <Entry Placeholder="{services:Translation FoodCalories}" Text="{Binding NewFoodCalories}" Keyboard="Numeric"/>
+            <Button Text="{services:Translation AddFoodButton}" Command="{Binding AddFoodCommand}"/>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding FoodItems}">
+            <CollectionView.EmptyView>
+                <Label Text="{services:Translation EmptyFood}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Food">
+                    <Grid ColumnDefinitions="*, Auto, Auto, Auto, Auto" Padding="5" ColumnSpacing="5" VerticalOptions="Center">
+
+                        <Label Grid.Column="0" Text="{Binding Name}" FontSize="16" VerticalOptions="Center"/>
+
+                        <Label Grid.Column="1" Text="{Binding Calories, StringFormat='{0} kcal'}" FontSize="14" TextColor="Gray" VerticalOptions="Center" Margin="0,0,10,0"/>
+
+                        <Button Grid.Column="2" Text="▲" 
+                        Clicked="OnMoveUpClicked"
+                        BindingContext="{Binding .}"
+                        WidthRequest="40" HeightRequest="40" Padding="0"/>
+
+                        <Button Grid.Column="3" Text="▼" 
+                        Clicked="OnMoveDownClicked"
+                        BindingContext="{Binding .}"
+                        WidthRequest="40" HeightRequest="40" Padding="0"/>
+
+                        <Button Grid.Column="4" Text="X" BackgroundColor="DarkRed" TextColor="White" 
+                        Clicked="OnDeleteClicked"
+                        BindingContext="{Binding .}"
+                        WidthRequest="40" HeightRequest="40" Padding="0"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="{services:Translation Settings}"
+                Command="{Binding OpenSettingsCommand}"
+                HorizontalOptions="End"
+                VerticalOptions="Start"/>
     </Grid>
-    
-
-
 </ContentPage>
